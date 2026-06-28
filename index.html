@@ -3,68 +3,374 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pakistani Diet Plan</title>
+    <title>Pakistani Diet Plan - Weight Loss</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Arial; background: #f5f5f5; margin: 0; }
-        header { background: #2E7D32; color: white; padding: 20px; text-align: center; }
-        .hero { text-align: center; padding: 50px 20px; }
-        .hero h1 { color: #2E7D32; font-size: 2.5em; }
-        .plans { display: flex; justify-content: center; gap: 20px; padding: 40px; flex-wrap: wrap; }
-        .card { background: white; border-radius: 10px; padding: 30px; width: 250px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .card h3 { color: #2E7D32; }
-        .price { font-size: 2em; color: #2E7D32; font-weight: bold; }
-        .btn { background: #2E7D32; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; width: 100%; font-size: 1em; }
-        .btn:hover { background: #1B5E20; }
-        footer { text-align: center; padding: 20px; background: #2E7D32; color: white; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #FAFAF7; color: #1a1a1a; }
+
+        /* NAV */
+        nav { background: #1B4332; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .logo { color: #95D5B2; font-size: 1.3em; font-weight: 700; letter-spacing: -0.5px; }
+        .logo span { color: white; }
+        nav ul { list-style: none; display: flex; gap: 30px; }
+        nav ul li a { color: #d8f3dc; text-decoration: none; font-size: 0.9em; transition: color 0.2s; }
+        nav ul li a:hover { color: #95D5B2; }
+
+        /* HERO */
+        .hero { background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 60%, #40916C 100%); color: white; padding: 100px 40px 80px; text-align: center; position: relative; overflow: hidden; }
+        .hero::before { content: '🍛'; font-size: 200px; position: absolute; top: -40px; right: -40px; opacity: 0.08; }
+        .hero-badge { display: inline-block; background: #95D5B2; color: #1B4332; padding: 6px 16px; border-radius: 20px; font-size: 0.8em; font-weight: 600; margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase; }
+        .hero h1 { font-size: 3em; font-weight: 700; line-height: 1.2; margin-bottom: 20px; }
+        .hero h1 span { color: #95D5B2; }
+        .hero p { font-size: 1.1em; opacity: 0.85; max-width: 550px; margin: 0 auto 40px; line-height: 1.7; }
+        .hero-btn { background: #95D5B2; color: #1B4332; padding: 16px 40px; border: none; border-radius: 8px; font-size: 1.1em; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; transition: transform 0.2s; }
+        .hero-btn:hover { transform: translateY(-2px); }
+
+        /* STATS */
+        .stats { background: white; padding: 40px; display: flex; justify-content: center; gap: 60px; border-bottom: 1px solid #e8f5e9; flex-wrap: wrap; }
+        .stat { text-align: center; }
+        .stat-num { font-size: 2.5em; font-weight: 700; color: #2D6A4F; }
+        .stat-label { font-size: 0.85em; color: #666; margin-top: 4px; }
+
+        /* SECTION */
+        .section { padding: 80px 40px; max-width: 1100px; margin: 0 auto; }
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-size: 2em; color: #1B4332; margin-bottom: 12px; }
+        .section-title p { color: #666; font-size: 1em; }
+
+        /* MEAL PLAN */
+        .meal-plan { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 20px; }
+        .meal-header { background: #2D6A4F; color: white; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .meal-header h3 { font-size: 1.1em; }
+        .meal-header .calories { background: #95D5B2; color: #1B4332; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; font-weight: 600; }
+        .meal-body { padding: 24px 30px; display: none; }
+        .meal-body.active { display: block; }
+        .meal-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+        .meal-row:last-child { border-bottom: none; }
+        .food-name { font-weight: 500; }
+        .food-detail { color: #666; font-size: 0.9em; }
+        .food-cal { color: #2D6A4F; font-weight: 600; font-size: 0.95em; }
+
+        /* PLANS */
+        .plans-grid { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+        .plan-card { background: white; border-radius: 16px; padding: 36px 28px; width: 300px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 2px solid transparent; transition: all 0.3s; position: relative; }
+        .plan-card:hover { border-color: #2D6A4F; transform: translateY(-4px); }
+        .plan-card.popular { border-color: #2D6A4F; }
+        .popular-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: #2D6A4F; color: white; padding: 4px 20px; border-radius: 20px; font-size: 0.8em; font-weight: 600; white-space: nowrap; }
+        .plan-name { font-size: 1.2em; font-weight: 700; color: #1B4332; margin-bottom: 6px; }
+        .plan-duration { color: #666; font-size: 0.9em; margin-bottom: 20px; }
+        .plan-price { font-size: 2.8em; font-weight: 700; color: #2D6A4F; margin-bottom: 6px; }
+        .plan-price span { font-size: 0.4em; color: #666; }
+        .plan-features { list-style: none; margin: 20px 0 28px; text-align: left; }
+        .plan-features li { padding: 8px 0; font-size: 0.9em; color: #444; border-bottom: 1px solid #f5f5f5; }
+        .plan-features li::before { content: '✅ '; }
+        .plan-btn { background: #2D6A4F; color: white; padding: 14px 30px; border: none; border-radius: 8px; font-size: 1em; font-weight: 600; cursor: pointer; width: 100%; transition: background 0.2s; }
+        .plan-btn:hover { background: #1B4332; }
+
+        /* ORDER FORM */
+        .order-section { background: #1B4332; padding: 80px 40px; display: none; }
+        .order-section.active { display: block; }
+        .order-form { max-width: 550px; margin: 0 auto; background: white; border-radius: 16px; padding: 48px; }
+        .order-form h2 { color: #1B4332; font-size: 1.8em; margin-bottom: 8px; }
+        .order-form p { color: #666; margin-bottom: 32px; font-size: 0.95em; }
+        .selected-plan { background: #d8f3dc; border-radius: 8px; padding: 14px 20px; margin-bottom: 28px; color: #1B4332; font-weight: 600; font-size: 0.95em; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #333; font-size: 0.9em; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 14px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.95em; outline: none; transition: border-color 0.2s; font-family: 'Poppins', sans-serif; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #2D6A4F; }
+        .form-group textarea { height: 100px; resize: none; }
+        .submit-btn { background: #2D6A4F; color: white; padding: 16px; border: none; border-radius: 8px; font-size: 1.05em; font-weight: 700; cursor: pointer; width: 100%; margin-top: 8px; transition: background 0.2s; }
+        .submit-btn:hover { background: #1B4332; }
+        .success-msg { display: none; text-align: center; padding: 20px; }
+        .success-msg h3 { color: #2D6A4F; font-size: 1.5em; margin-bottom: 10px; }
+
+        /* FOOTER */
+        footer { background: #0D2818; color: #95D5B2; text-align: center; padding: 30px; font-size: 0.9em; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2em; }
+            .stats { gap: 30px; }
+            nav ul { gap: 15px; }
+            .section { padding: 60px 20px; }
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <h2>🍛 Pakistani Diet Plan</h2>
-    <p>Sehatmand Zindagi Ki Taraf Pehla Qadam</p>
-</header>
+<!-- NAV -->
+<nav>
+    <div class="logo">🍛 Pakistani<span>Diet</span></div>
+    <ul>
+        <li><a href="#plans">Plans</a></li>
+        <li><a href="#meal-plan">Meal Plan</a></li>
+        <li><a href="#order" onclick="showOrder('Basic Plan', 'Rs. 499')">Order Karein</a></li>
+    </ul>
+</nav>
 
+<!-- HERO -->
 <div class="hero">
-    <h1>Apna Weight Loss Safar Shuru Karein!</h1>
-    <p>Pakistan ke mashhoor khanon ke saath healthy rehna ab aasaan hai</p>
+    <div class="hero-badge">🇵🇰 Pakistan Ka #1 Diet Plan</div>
+    <h1>Pakistani Khane Se<br><span>Weight Loss</span> Karein!</h1>
+    <p>Biryani, Roti, Daal — apne pasandida khanon ke saath healthy rehna ab possible hai. Hamara scientifically designed Pakistani diet plan try karein.</p>
+    <a href="#plans" class="hero-btn">Apna Plan Chunein →</a>
 </div>
 
-<div class="plans">
-    <div class="card">
-        <h3>Basic Plan</h3>
-        <p>7 Din ka Diet Plan</p>
-        <div class="price">Rs. 499</div>
-        <p>✅ Pakistani food list</p>
-        <p>✅ Daily meal plan</p>
-        <p>✅ Calorie guide</p>
-        <button class="btn">Abhi Lein</button>
+<!-- STATS -->
+<div class="stats">
+    <div class="stat">
+        <div class="stat-num">500+</div>
+        <div class="stat-label">Khush Customers</div>
     </div>
-
-    <div class="card">
-        <h3>Standard Plan</h3>
-        <p>30 Din ka Diet Plan</p>
-        <div class="price">Rs. 999</div>
-        <p>✅ Complete meal plan</p>
-        <p>✅ Exercise guide</p>
-        <p>✅ WhatsApp support</p>
-        <button class="btn">Abhi Lein</button>
+    <div class="stat">
+        <div class="stat-num">5-10kg</div>
+        <div class="stat-label">Average Weight Loss</div>
     </div>
-
-    <div class="card">
-        <h3>Premium Plan</h3>
-        <p>90 Din ka Diet Plan</p>
-        <div class="price">Rs. 1999</div>
-        <p>✅ Custom meal plan</p>
-        <p>✅ Weekly check-in</p>
-        <p>✅ Personal dietitian</p>
-        <button class="btn">Abhi Lein</button>
+    <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Pakistani Foods</div>
+    </div>
+    <div class="stat">
+        <div class="stat-num">30 Din</div>
+        <div class="stat-label">Mein Results</div>
     </div>
 </div>
 
+<!-- MEAL PLAN SECTION -->
+<div class="section" id="meal-plan">
+    <div class="section-title">
+        <h2>🍽️ Sample Meal Plan</h2>
+        <p>Dekhein ke hamara diet plan mein kya kya shaamil hai</p>
+    </div>
+
+    <!-- Day 1 -->
+    <div class="meal-plan">
+        <div class="meal-header" onclick="toggleMeal(this)">
+            <h3>📅 Din 1 — Subah se Raat tak</h3>
+            <span class="calories">1450 Cal</span>
+        </div>
+        <div class="meal-body active">
+            <div class="meal-row">
+                <div><div class="food-name">🌅 Nashta (Subah 8 baje)</div><div class="food-detail">2 Anday + 1 Roti + Chai (bina cheeni)</div></div>
+                <div class="food-cal">320 Cal</div>
+            </div>
+            <div class="meal-row">
+                <div><div class="food-name">🍎 Mid Morning (11 baje)</div><div class="food-detail">1 Seb ya 1 Kela</div></div>
+                <div class="food-cal">80 Cal</div>
+            </div>
+            <div class="meal-row">
+                <div><div class="food-name">🍽️ Dopahar ka Khana (1 baje)</div><div class="food-detail">Daal Chawal (1 cup) + Salad</div></div>
+                <div class="food-cal">450 Cal</div>
+            </div>
+            <div class="meal-row">
+                <div><div class="food-name">☕ Sham ka Nashta (4 baje)</div><div class="food-detail">1 cup Dahi ya Lassi (bina cheeni)</div></div>
+                <div class="food-cal">150 Cal</div>
+            </div>
+            <div class="meal-row">
+                <div><div class="food-name">🌙 Raat ka Khana (7 baje)</div><div class="food-detail">Chicken Saalan + 1 Roti + Salad</div></div>
+                <div class="food-cal">450 Cal</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Day 2 -->
+    <div class="meal-plan">
+        <div class="meal-header" onclick="toggleMeal(this)">
+            <h3>📅 Din 2 — Variety ke saath</h3>
+            <span class="calories">1380 Cal</span>
+        </div>
+        <div class="meal-body">
+            <div class="meal-row">
+                <div><div class="food-name">🌅 Nashta</div><div class="food-detail">Paratha (1) + Dahi + Lassi</div></div>
+                <div class="food-cal">380 Cal</div>
+            </div>
+            <div class="meal-row">
+                <div><div class="food-name">🍎 Mid Morning</div><div class="food-detail">Mutthi bhar Akhrot ya Badam</div></div>
+                <div class="food-cal">100 Cal</div>
+            </div>
+            <div class="meal-row">
+                <div><div class="food-name">🍽️ Dopahar</div><div class="food-detail">Sabzi + 1 Roti + Raita</div></div>
+                <div class="food-cal">400 Cal</div>
+            </div>
+            <div class="meal-row">
+                <div><div class="food-name">☕ Sham</div><div class="food-detail">Green Tea + 2 Marie Biscuit</div></div>
+                <div class="food-cal">80 Cal</div>
+            </div>
+            <div class="meal-row">
+                <div><div class="food-name">🌙 Raat</div><div class="food-detail">Daal Mash + 1 Roti + Salad</div></div>
+                <div class="food-cal">420 Cal</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Day 3 -->
+    <div class="meal-plan">
+        <div class="meal-header" onclick="toggleMeal(this)">
+            <h3>📅 Din 3 — Light Day</h3>
+            <span class="calories">1300 Cal</span>
+        </div>
+        <div class="meal-body">
+            <div class="meal-row">
+                <div><div class="food-name">🌅 Nashta</div><div class="food-detail">Oats + Doodh + Kela</div></div>
+                <div class="food-cal">300 Cal</div>
+            </div>
+            <div class="meal-row">
+                <div><div class="food-name">🍎 Mid Morning</div><div class="food-detail">1 Orange ya Amrood</div></div>
+                <div class="food-cal">60 Cal</div>
+            </div>
+            <div class="meal-row">
+                <div><div class="food-name">🍽️ Dopahar</div><div class="food-detail">Chicken Yakhni Soup + 1 Roti</div></div>
+                <div class="food-cal">380 Cal</div>
+            </div>
+            <div class="meal-row">
+                <div><div class="food-name">☕ Sham</div><div class="food-detail">1 cup Dahi</div></div>
+                <div class="food-cal">120 Cal</div>
+            </div>
+            <div class="meal-row">
+                <div><div class="food-name">🌙 Raat</div><div class="food-detail">Machli + Salad + 1 Roti</div></div>
+                <div class="food-cal">440 Cal</div>
+            </div>
+        </div>
+    </div>
+
+    <p style="text-align:center; color:#666; margin-top:20px; font-size:0.9em">
+        ⭐ Full plan mein 7, 30 ya 90 din ka complete meal schedule hoga
+    </p>
+</div>
+
+<!-- PLANS SECTION -->
+<div style="background: #f0faf4; padding: 80px 40px;" id="plans">
+    <div class="section-title">
+        <h2>💚 Apna Plan Chunein</h2>
+        <p>Har budget ke liye alag plan — aaj hi shuru karein</p>
+    </div>
+    <div class="plans-grid">
+
+        <div class="plan-card">
+            <div class="plan-name">Basic Plan</div>
+            <div class="plan-duration">7 Din ka Diet Plan</div>
+            <div class="plan-price">Rs. 499<span>/plan</span></div>
+            <ul class="plan-features">
+                <li>7 din ka complete meal plan</li>
+                <li>Pakistani food calorie list</li>
+                <li>Daily calorie target</li>
+                <li>Shopping list</li>
+                <li>PDF format mein milega</li>
+            </ul>
+            <button class="plan-btn" onclick="showOrder('Basic Plan', 'Rs. 499')">Abhi Order Karein</button>
+        </div>
+
+        <div class="plan-card popular">
+            <div class="popular-badge">⭐ Sabse Popular</div>
+            <div class="plan-name">Standard Plan</div>
+            <div class="plan-duration">30 Din ka Diet Plan</div>
+            <div class="plan-price">Rs. 999<span>/plan</span></div>
+            <ul class="plan-features">
+                <li>30 din ka complete meal plan</li>
+                <li>Exercise guide bhi shaamil</li>
+                <li>Weekly progress tracker</li>
+                <li>WhatsApp support</li>
+                <li>Recipe ideas</li>
+                <li>PDF + Excel format</li>
+            </ul>
+            <button class="plan-btn" onclick="showOrder('Standard Plan', 'Rs. 999')">Abhi Order Karein</button>
+        </div>
+
+        <div class="plan-card">
+            <div class="plan-name">Premium Plan</div>
+            <div class="plan-duration">90 Din ka Diet Plan</div>
+            <div class="plan-price">Rs. 1999<span>/plan</span></div>
+            <ul class="plan-features">
+                <li>90 din ka custom meal plan</li>
+                <li>Personal dietitian se consult</li>
+                <li>Weekly check-in call</li>
+                <li>24/7 WhatsApp support</li>
+                <li>Exercise + yoga guide</li>
+                <li>Monthly progress report</li>
+            </ul>
+            <button class="plan-btn" onclick="showOrder('Premium Plan', 'Rs. 1999')">Abhi Order Karein</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- ORDER FORM -->
+<div class="order-section" id="order">
+    <div class="order-form">
+        <h2>📋 Order Karein</h2>
+        <p>Form fill karein — hum 24 ghante mein aap se rabta karenge</p>
+        <div class="selected-plan" id="selected-plan-text">✅ Selected: Standard Plan — Rs. 999</div>
+
+        <div id="form-area">
+            <div class="form-group">
+                <label>Aap ka Naam *</label>
+                <input type="text" id="fname" placeholder="Jaise: Sania Ali" required>
+            </div>
+            <div class="form-group">
+                <label>Email Address *</label>
+                <input type="email" id="femail" placeholder="aapki@email.com" required>
+            </div>
+            <div class="form-group">
+                <label>WhatsApp Number *</label>
+                <input type="tel" id="fphone" placeholder="03xx-xxxxxxx" required>
+            </div>
+            <div class="form-group">
+                <label>Maqsad (Goal)</label>
+                <select id="fgoal">
+                    <option>Weight Loss — 5kg tak</option>
+                    <option>Weight Loss — 10kg tak</option>
+                    <option>Weight Loss — 10kg se zyada</option>
+                    <option>General Health</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Koi khaas requirement? (Optional)</label>
+                <textarea id="fnotes" placeholder="Jaise: diabetes hai, ya koi khaana pasand nahi..."></textarea>
+            </div>
+            <button class="submit-btn" onclick="submitForm()">🚀 Order Submit Karein</button>
+        </div>
+
+        <div class="success-msg" id="success-msg">
+            <div style="font-size:3em">✅</div>
+            <h3>Shukriya! Order Mil Gaya!</h3>
+            <p style="color:#666; margin-top:10px">Hum 24 ghante mein aap ke email ya WhatsApp pe rabta karenge aur aap ka diet plan bhej denge!</p>
+            <p style="color:#2D6A4F; font-weight:600; margin-top:16px">JazakAllah Khair 🤲</p>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
 <footer>
-    <p>© 2026 Pakistani Diet Plan | Made with ❤️ in Pakistan</p>
+    <p>🍛 Pakistani Diet Plan — Sehatmand Zindagi Ki Taraf</p>
+    <p style="margin-top:8px; opacity:0.7">© 2026 PakistaniDiet.com | Made with ❤️ in Pakistan</p>
 </footer>
+
+<script>
+    function toggleMeal(header) {
+        const body = header.nextElementSibling;
+        body.classList.toggle('active');
+    }
+
+    function showOrder(planName, price) {
+        document.getElementById('order').classList.add('active');
+        document.getElementById('selected-plan-text').textContent = '✅ Selected: ' + planName + ' — ' + price;
+        document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function submitForm() {
+        const name = document.getElementById('fname').value;
+        const email = document.getElementById('femail').value;
+        const phone = document.getElementById('fphone').value;
+
+        if (!name || !email || !phone) {
+            alert('Sab zaroori fields bharo!');
+            return;
+        }
+
+        document.getElementById('form-area').style.display = 'none';
+        document.getElementById('success-msg').style.display = 'block';
+    }
+</script>
 
 </body>
 </html>
