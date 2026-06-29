@@ -357,21 +357,39 @@
         document.getElementById('selected-plan-text').textContent = '✅ Selected: ' + planName + ' — ' + price;
         document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
     }
+function submitForm() {
+    const name = document.getElementById('fname').value;
+    const email = document.getElementById('femail').value;
+    const phone = document.getElementById('fphone').value;
+    const goal = document.getElementById('fgoal').value;
+    const notes = document.getElementById('fnotes').value;
+    const plan = document.getElementById('selected-plan-text').textContent;
 
-    function submitForm() {
-        const name = document.getElementById('fname').value;
-        const email = document.getElementById('femail').value;
-        const phone = document.getElementById('fphone').value;
-
-        if (!name || !email || !phone) {
-            alert('Sab zaroori fields bharo!');
-            return;
-        }
-
-        document.getElementById('form-area').style.display = 'none';
-        document.getElementById('success-msg').style.display = 'block';
+    if (!name || !email || !phone) {
+        alert('Sab zaroori fields bharo!');
+        return;
     }
-</script>
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('phone', phone);
+    formData.append('goal', goal);
+    formData.append('notes', notes);
+    formData.append('plan', plan);
+
+    fetch('https://formspree.io/f/xpqglwgd', {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+    })
+    .then(response => {
+        if (response.ok) {
+            document.getElementById('form-area').style.display = 'none';
+            document.getElementById('success-msg').style.display = 'block';
+        }
+    });
+}
 
 </body>
 </html>
